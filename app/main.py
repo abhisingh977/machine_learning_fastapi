@@ -6,7 +6,6 @@ from constants import train_unique, load_model, variables
 from function import create_dummies, preprocess_data, transform_data_to_dict, transform_data_to_dataframe
 from schemas import InputData
 from pydantic import ValidationError
-from fastapi import HTTPException
 
 
 # Create an instance of the FastAPI class
@@ -23,8 +22,8 @@ async def read_root():
 @app.post("/predict")
 async def get_prediction_from_data(
     data: Union[InputData, List[InputData]],
-) -> List[float]:
-
+)  -> List[Dict]:
+    
     data = transform_data_to_dict(data)
 
     data = transform_data_to_dataframe(data)
@@ -37,6 +36,33 @@ async def get_prediction_from_data(
 
     final_input = user_input[variables]
 
+    list_response = []
+    response = {}
+
+    #we will say the cutoff is at the 75th percentile.  F
+    # or the API, please return the predicted outcome (variable name is business_outcome),
+    #  predicted probability (variable name is phat),
+    #  and all model inputs;
+    #  the variables should be returned in alphabetical order in the API return as json.
     value = model.predict(final_input).tolist()
 
-    return value
+    for i in range(len(value)):
+        if value[i] > 0.75:
+            response["business_outcome"] = 1
+
+        else:
+            response["business_outcome"] = 0
+
+        response["phat"] = value[i]
+        final_input_dict = final_input.iloc[i].to_dict()
+
+        # add the final_input_dict to the response dictionary
+        response.update(final_input_dict)
+        
+        # sort the dictionary by key alphabetically
+        sorted_response = {k: response[k] for k in sorted(response)}
+
+        list_response.append(sorted_response)
+
+    return list_response
+

@@ -1,6 +1,7 @@
 import pandas as pd
 from constants import imputer, std_scaler, train_unique
 from typing import List, Dict, Union
+from schemas import InputData
 
 
 def transform_data_to_dataframe(data: Union[List[Dict], Dict]) -> pd.DataFrame:
@@ -12,7 +13,9 @@ def transform_data_to_dataframe(data: Union[List[Dict], Dict]) -> pd.DataFrame:
     return data
 
 
-def transform_data_to_dict(data: Union[List[Dict], Dict]) -> Union[List[Dict], Dict]:
+def transform_data_to_dict(
+    data: Union[InputData, List[InputData]]
+) -> Union[List[Dict], Dict]:
     if isinstance(data, list):
         # Handle the case where data is a list
         result = []
