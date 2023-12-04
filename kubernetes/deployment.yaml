@@ -1,0 +1,21 @@
+apiVersion: machine_learning_fastapi/v1
+kind: Deployment
+metadata:
+  name: machine_learning_fastapi
+  labels:
+    app: machine_learning_fastapi
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: machine_learning_fastapi
+  template:
+    metadata:
+      labels:
+        app: machine_learning_fastapi
+    spec:
+      containers:
+      - name: machine_learning_fastapi
+        image: abhishek1997/machine_learning_fastapi:latest
+        ports:
+        - containerPort: 1313
