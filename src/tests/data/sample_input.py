@@ -1,4 +1,4 @@
-from schemas import InputData
+from app.schemas import InputData
 
 # create mock InputData class with abc string as value of all 100 keys
 mock_input_data = InputData(

@@ -1,8 +1,8 @@
-from ..function import preprocess_data, transform_data_to_dict
+from app.function import preprocess_data, transform_data_to_dict
 import pytest
 from tests.data.sample_input import mock_input_data, list_of_mock_input_data
 import pandas as pd
-from ..constants import train_unique
+from app.constants import train_unique
 
 def test_preprocess_dict_data():
 
