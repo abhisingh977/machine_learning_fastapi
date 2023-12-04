@@ -34,7 +34,8 @@ jobs:
     - name: Run tests with code coverage
       run: |
         # Run tests with code coverage
-        coverage run -m pytest machine_learning_fastapi/app/tests/
+        cd app/
+        coverage run -m pytest tests/
       
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
