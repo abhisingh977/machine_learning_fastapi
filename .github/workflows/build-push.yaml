@@ -34,10 +34,9 @@ jobs:
     - name: Run tests with code coverage
       run: |
         # Run tests with code coverage
-        # Example: pytest --cov=app tests/
-        pytest --cov=app tests/
+        coverage run -m pytest tests/
       
-    - name: Upload code coverage report
-      run: |
-        # Upload code coverage report to the code coverage tool
-        codecov upload
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
