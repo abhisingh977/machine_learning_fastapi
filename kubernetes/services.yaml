@@ -1,0 +1,11 @@
+apiVersion: machine_learning_fastapi/v1
+kind: Service
+metadata:
+  name: machine_learning_fastapi
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: machine_learning_fastapi
+  ports:
+      port: 1313
+      targetPort: 1313
