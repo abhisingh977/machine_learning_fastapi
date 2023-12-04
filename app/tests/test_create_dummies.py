@@ -1,8 +1,8 @@
-from function import create_dummies, preprocess_data, transform_data_to_dict
+from ..function import create_dummies, preprocess_data, transform_data_to_dict
 import pytest
 from tests.data.sample_input import list_of_mock_input_data, mock_input_data
 import pandas as pd
-from constants import train_unique
+from ..constants import train_unique
 
 # write test create_dummies for dict input data
 def test_create_dummies_mock_input_data():

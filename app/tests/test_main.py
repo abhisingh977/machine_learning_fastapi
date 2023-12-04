@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from tests.data.sample_input import dict_data, list_dict_data
-from main import app
+from ..main import app
 
 import pytest
 
