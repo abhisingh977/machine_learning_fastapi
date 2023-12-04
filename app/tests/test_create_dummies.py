@@ -18,6 +18,7 @@ def test_create_dummies_mock_input_data():
 
     result = create_dummies(data, test_imputed_std)
 
+    assert len(result) == len(data)
     assert result.shape == (839, 121)
 
     assert isinstance(result, pd.DataFrame)
