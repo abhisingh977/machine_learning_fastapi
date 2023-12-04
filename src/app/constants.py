@@ -3,19 +3,19 @@ import pickle
 import pandas as pd
 
 # Load the train data
-train_unique = pd.read_csv("required_data/train_unique.csv")
+subset_train_data_for_prediction = pd.read_csv("required_data/subset_train_data_for_prediction.csv")
 
-# Load the imputer and scaler objects
-imputer = joblib.load("model/imputer_model.joblib")
-std_scaler = joblib.load("model/std_scaler_model.joblib")
+# Load the imputer and std_scaler objects
+imputer = joblib.load("model/train_data_imputer.joblib")
+std_scaler = joblib.load("model/train_data_std_scaler.joblib")
 
 # Load and return the pre-trained model
 def load_model():
-    
     with open("model/model.pkl", "rb") as f:
         model = pickle.load(f)
 
     return model
+
 
 # Final features needed for prediction
 variables = [

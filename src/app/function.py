@@ -1,15 +1,47 @@
 import pandas as pd
-from app.constants import imputer, std_scaler, train_unique
+from app.constants import imputer, std_scaler, subset_train_data_for_prediction
 from typing import List, Dict, Union
 from app.schemas import InputData
+
+def make_prediction(model, final_input: pd.DataFrame) -> List[Dict]:
+    # cutoff is at the 75th percentile.  
+    #  predicted outcome (variable name is business_outcome),
+    #  predicted probability (variable name is phat),
+    #  and all model inputs
+    #  the variables should be returned in alphabetical order in the API return as json.
+
+    list_response = []
+    response = {}
+
+    value = model.predict(final_input).tolist()
+
+    for i in range(len(value)):
+        if value[i] >= 0.75:
+            response["business_outcome"] = 1
+
+        else:
+            response["business_outcome"] = 0
+
+        response["phat"] = value[i]
+        final_input_dict = final_input.iloc[i].to_dict()
+
+        # add the final_input_dict to the response dictionary
+        response.update(final_input_dict)
+        
+        # sort the dictionary by key alphabetically
+        sorted_response = {k: response[k] for k in sorted(response)}
+
+        list_response.append(sorted_response)
+
+    return list_response
 
 
 def transform_data_to_dataframe(data: Union[List[Dict], Dict]) -> pd.DataFrame:
     # read list of dictionaries into a pandas dataframe
     data = pd.json_normalize(data)
 
-    # merge with train_unique and data df
-    data = pd.concat([train_unique, data], axis=0, ignore_index=True)
+    # merge with subset_train_data_for_prediction and data df
+    data = pd.concat([subset_train_data_for_prediction, data], axis=0, ignore_index=True)
     return data
 
 

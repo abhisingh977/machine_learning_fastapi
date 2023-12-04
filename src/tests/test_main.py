@@ -4,6 +4,7 @@ from main import app
 
 import pytest
 
+
 @pytest.fixture
 def client():
     return TestClient(app)
@@ -16,10 +17,9 @@ def test_read_root(client):
     # assert the status code
     assert response.status_code == 200
     # Use the follow method to handle redirects
-    
+
     # assert the response text
     assert response.json() == {"message": "api is up and running"}
-
 
 
 # write a test function for the endpoint get_prediction_from_data dict_data
@@ -31,7 +31,7 @@ def test_get_prediction_dict_data(client):
     # assert the response text
     # Assert the response content
     response_data = response.json()
-    
+
     assert len(response_data) == 1
 
     # Example assertions for specific values
@@ -41,7 +41,6 @@ def test_get_prediction_dict_data(client):
     assert response_data[0]["x31_asia"] == 0.0
     assert response_data[0]["x31_germany"] == 1.0
     assert response_data[0]["x31_japan"] == 0.0
-
 
 
 # write a test function for the endpoint get_prediction_from_data list_dict_data
@@ -55,7 +54,7 @@ def test_get_prediction_list_dict_data(client):
     response_data = response.json()
 
     assert len(response_data) == 6
-    
+
     # Example assertions for specific values
     assert response_data[0]["business_outcome"] == 0
     assert response_data[0]["phat"] == 0.36432704992115167
