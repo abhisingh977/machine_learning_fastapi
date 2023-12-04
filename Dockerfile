@@ -1,21 +1,16 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
 
-COPY app/model /app/model
-COPY app/required_data /app/required_data
-COPY requirements.txt /app/requirements.txt
-COPY app/__init__.py /app/__init__.py
-COPY app/function.py /app/function.py
-COPY app/constants.py /app/constants.py
-COPY app/schemas.py /app/schemas.py
-COPY app/main.py /app/main.py
-COPY app/tests /app/tests
+COPY src/model /src/model
+COPY src/required_data /src/required_data
+COPY requirements.txt /src/requirements.txt
+COPY src/app/ /src/app/
+COPY src/main.py /src/main.py
 
-WORKDIR /app
+WORKDIR /src
 RUN pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-RUN pytest tests/
 
 # Expose the port
 EXPOSE 1313

@@ -1,7 +1,7 @@
 import pandas as pd
-from constants import imputer, std_scaler, train_unique
+from app.constants import imputer, std_scaler, train_unique
 from typing import List, Dict, Union
-from schemas import InputData
+from app.schemas import InputData
 
 
 def transform_data_to_dataframe(data: Union[List[Dict], Dict]) -> pd.DataFrame:

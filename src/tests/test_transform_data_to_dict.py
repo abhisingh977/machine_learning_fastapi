@@ -1,6 +1,6 @@
 import pytest
 from tests.data.sample_input import mock_input_data, list_of_mock_input_data
-from function import transform_data_to_dict
+from app.function import transform_data_to_dict
 
 # test for transform_data_to_dict fuction
 def test_transform_data_to_dict_mock_input_data():

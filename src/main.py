@@ -1,12 +1,9 @@
 from fastapi import FastAPI
-import uvicorn
 from typing import List, Union, Dict
 import pandas as pd
-from constants import train_unique, load_model, variables
-from function import create_dummies, preprocess_data, transform_data_to_dict, transform_data_to_dataframe
-from schemas import InputData
-from pydantic import ValidationError
-
+from app.constants import train_unique, load_model, variables
+from app.function import create_dummies, preprocess_data, transform_data_to_dict, transform_data_to_dataframe
+from app.schemas import InputData
 
 # Create an instance of the FastAPI class
 app = FastAPI()
