@@ -15,6 +15,8 @@ def test_read_root(client):
     response = client.get("/")
     # assert the status code
     assert response.status_code == 200
+    # Use the follow method to handle redirects
+    
     # assert the response text
     assert response.json() == {"message": "api is up and running"}
 
