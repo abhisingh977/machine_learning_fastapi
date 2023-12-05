@@ -1,0 +1,12 @@
+apiVersion: machine_learning_fastapi/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: machine_learning_fastapi
+spec:
+  scaleTargetRef:
+    apiVersion: machine_learning_fastapi/v1
+    kind: Deployment
+    name: machine_learning_fastapi
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50

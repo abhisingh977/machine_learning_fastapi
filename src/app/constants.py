@@ -1,6 +1,10 @@
 import joblib
 import pickle
 import pandas as pd
+import logging
+
+# Get the logger for this module
+logger = logging.getLogger(__name__)
 
 # Load the train data
 subset_train_data_for_prediction = pd.read_csv("required_data/subset_train_data_for_prediction.csv")
