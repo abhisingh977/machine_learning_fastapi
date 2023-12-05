@@ -3,12 +3,20 @@ from app.constants import imputer, std_scaler, subset_train_data_for_prediction
 from typing import List, Dict, Union
 from app.schemas import InputData
 
+
 def make_prediction(model, final_input: pd.DataFrame) -> List[Dict]:
-    # cutoff is at the 75th percentile.  
-    #  predicted outcome (variable name is business_outcome),
-    #  predicted probability (variable name is phat),
-    #  and all model inputs
-    #  the variables should be returned in alphabetical order in the API return as json.
+    """
+    Summary: make prediction using the pre-trained model and return a list of dictionaries
+    if the probability of the prediction is greater than or equal to 0.75, then the business_outcome is 1
+    else the business_outcome is 0
+
+    Args:
+    model: pre-trained model
+    final_input: final features needed for prediction
+
+    return: a list of dictionaries
+
+    """
 
     list_response = []
     response = {}
@@ -27,7 +35,7 @@ def make_prediction(model, final_input: pd.DataFrame) -> List[Dict]:
 
         # add the final_input_dict to the response dictionary
         response.update(final_input_dict)
-        
+
         # sort the dictionary by key alphabetically
         sorted_response = {k: response[k] for k in sorted(response)}
 
@@ -37,17 +45,37 @@ def make_prediction(model, final_input: pd.DataFrame) -> List[Dict]:
 
 
 def transform_data_to_dataframe(data: Union[List[Dict], Dict]) -> pd.DataFrame:
+    """
+    read list of dictionaries into a pandas dataframe and merge with
+    subset_train_data_for_prediction.
+
+    Args:
+    data: a list of dictionaries or a dictionary
+
+    return: a pandas dataframe merged with subset_train_data_for_prediction
+    """
+
     # read list of dictionaries into a pandas dataframe
     data = pd.json_normalize(data)
 
     # merge with subset_train_data_for_prediction and data df
-    data = pd.concat([subset_train_data_for_prediction, data], axis=0, ignore_index=True)
+    data = pd.concat(
+        [subset_train_data_for_prediction, data], axis=0, ignore_index=True
+    )
     return data
 
 
 def transform_data_to_dict(
     data: Union[InputData, List[InputData]]
 ) -> Union[List[Dict], Dict]:
+    """
+    convert InputData object to a dictionary or a list of dictionaries
+    Args:
+    data: an InputData object or a list of InputData objects
+    return:
+        a dictionary or a list of dictionaries
+
+    """
     if isinstance(data, list):
         # Handle the case where data is a list
         result = []
@@ -60,6 +88,15 @@ def transform_data_to_dict(
 
 
 def create_dummies(data: pd.DataFrame, test_imputed_std: pd.DataFrame) -> pd.DataFrame:
+    """
+    create dummy variables for x5, x31, x81, x82 and concatenate with test_imputed_std
+    args:
+    data: a pandas dataframe containing x5, x31, x81, x82
+    test_imputed_std: a pandas dataframe  that has been imputed and standardized
+
+    return: a pandas dataframe with dummy variables for x5, x31, x81, x82
+    """
+
     dumb5 = pd.get_dummies(
         data["x5"], drop_first=True, prefix="x5", prefix_sep="_", dummy_na=True
     )
@@ -85,7 +122,13 @@ def create_dummies(data: pd.DataFrame, test_imputed_std: pd.DataFrame) -> pd.Dat
 
 
 def preprocess_data(data: pd.DataFrame) -> pd.DataFrame:
-    # apply same changes to my json of x0, x1, ..., x99 values that are applied to the training data train_val
+    """
+    preprocess the data by applying the same changes to the user input data as the train data
+    Args:
+    data: a pandas dataframe containing the user input data
+
+    return: a pandas dataframe that has been imputed and standardized
+    """
 
     data["x12"] = data["x12"].str.replace("$", "", regex=True)
     data["x12"] = data["x12"].str.replace(":", "", regex=True)

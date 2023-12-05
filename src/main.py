@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from typing import List, Union, Dict
-import pandas as pd
 from app.constants import load_model, variables
 from app.function import create_dummies, preprocess_data, transform_data_to_dict, transform_data_to_dataframe, make_prediction
 from app.schemas import InputData
