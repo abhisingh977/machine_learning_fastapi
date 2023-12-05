@@ -2,6 +2,10 @@ import pandas as pd
 from app.constants import imputer, std_scaler, subset_train_data_for_prediction
 from typing import List, Dict, Union
 from app.schemas import InputData
+import logging
+
+# Get the logger for this module
+logger = logging.getLogger(__name__)
 
 def make_prediction(model, final_input: pd.DataFrame) -> List[Dict]:
     # cutoff is at the 75th percentile.  
@@ -39,7 +43,7 @@ def make_prediction(model, final_input: pd.DataFrame) -> List[Dict]:
 def transform_data_to_dataframe(data: Union[List[Dict], Dict]) -> pd.DataFrame:
     # read list of dictionaries into a pandas dataframe
     data = pd.json_normalize(data)
-
+    logging.info(f"size of input: {len(data)}")
     # merge with subset_train_data_for_prediction and data df
     data = pd.concat([subset_train_data_for_prediction, data], axis=0, ignore_index=True)
     return data
@@ -80,7 +84,8 @@ def create_dummies(data: pd.DataFrame, test_imputed_std: pd.DataFrame) -> pd.Dat
     test_imputed_std = pd.concat([test_imputed_std, dumb82], axis=1, sort=False)
 
     del dumb5, dumb31, dumb81, dumb82
-
+    
+    logging.info(f"size of input after dummies: {test_imputed_std.shape}")
     return test_imputed_std
 
 
